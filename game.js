@@ -3,7 +3,7 @@ const number1 = document.getElementById("number1");
 const number2 = document.getElementById("number2");
 
 var num1,num2;
-var playerScore = 0;
+var score = 0;
 generateRandomNum();    
 function generateRandomNum(){
     num1 = parseInt(Math.random() * 100);
@@ -15,16 +15,19 @@ function generateRandomNum(){
 function updateSocre(){
     score++;
     generateRandomNum();
+    resetTime(timer);
 }
 
 function gameOver(){
-    localStorage.setItem('score',playerScore);
+    localStorage.setItem('score',score);
     location.href = "./gameover.html";
 }
 // Iteration 3: Make the options button functional
 const greaterThan = document.getElementById("greater-than");
 const lesserThan = document.getElementById("lesser-than");
 const equalTo = document.getElementById("equal-to");
+
+
 
 greaterThan.addEventListener('click', () =>{
     if (num1 > num2) {
@@ -53,5 +56,26 @@ equalTo.addEventListener('click', () =>{
         gameOver()
     }
 })
-
 // Iteration 4: Build a timer for the game
+var time = 5;
+var timerDiv = document.getElementById("timer");
+var timer;
+
+function startTimer() {
+  time = 5;
+  timerDiv.innerHTML = time;
+  timer = setInterval(() => {
+    time--;
+    if (time == 0) {
+      gameOver();
+    }
+    timerDiv.innerHTML = time;
+  }, 1000);
+}
+
+function resetTime(timerID) {
+  clearInterval(timerID);
+  startTimer();
+}
+
+startTimer();
